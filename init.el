@@ -88,6 +88,7 @@
 	 :map evil-insert-state-map
 	 ;; Shortcuts that work well w/ home-row Ctrl key
 	 ("C-g" . evil-normal-state)
+	 ("C-d" . evil-normal-state)
 	 ("C-f" . evil-normal-state)
 	 ("C-h" . backward-delete-char)
 	 ("C-o" . insert-minus-sign))
@@ -105,7 +106,7 @@
 	  ((eq major-mode 'dired-mode) (kill-buffer-and-window))
 	  ((eq major-mode 'messages-buffer-mode) (kill-buffer-and-window))))
 
-  (defun insert-minus-sign () (interactive) (insert "-"))
+(defun insert-minus-sign () (interactive) (insert "-"))
 
   (evil-set-initial-state 'eshell-mode 'insert)
 
