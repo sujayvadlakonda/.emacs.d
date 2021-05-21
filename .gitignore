@@ -5,3 +5,5 @@ elpa
 eshell
 init.el~
 url
+projectile-bookmarks.eld
+transient
