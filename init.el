@@ -13,8 +13,8 @@
 (define-key package-management "d" 'package-delete)
 (define-key package-management "h" 'describe-package)
 
-
 (require 'use-package)
+
 (use-package evil
   :ensure t
   :init
@@ -159,7 +159,9 @@
 (use-package rjsx-mode
   :ensure t
   :after js2-mode
-  :mode "\\.js\\'")
+  :mode "\\.js\\'"
+  :bind (:map rjsx-mode-map
+              ("C-/" . rjsx-comment-dwim)))
 
 ;; Dired
 (require 'dired)
@@ -179,7 +181,7 @@
 
 ;; Colors
 (set-background-color "#404040")
-(set-frame-font "JetBrains Mono 16" nil t)
+(set-frame-font "JetBrains Mono 20" nil t)
 (set-face-foreground 'default "#EEEEEE")
 (set-face-foreground 'font-lock-keyword-face "#C3C392")
 (set-face-foreground 'font-lock-comment-delimiter-face "#888A86")
