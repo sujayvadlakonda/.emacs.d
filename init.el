@@ -21,9 +21,14 @@
 
 ;; Minibuffer
 
-;; Editing
+;; Visual feedback for editing
+(display-line-numbers-mode)
+
+(setq visible-cursor nil)
+(blink-cursor-mode 0)
+
+;; Editing behavior/commands
 (electric-pair-mode)
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (add-hook 'prog-mode-hook 'abbrev-mode)
 (setq save-abbrevs nil)
@@ -35,6 +40,7 @@
         try-expand-dabbrev
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill))
+
 ;; Vim
 (require-package 'evil)
 (setq evil-want-insert-state-keybinding nil)
