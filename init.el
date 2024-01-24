@@ -3,15 +3,6 @@
 (push '("melpa" . "http://melpa.org/packages/") package-archives)
 (defun require-package (package)
   (unless (package-installed-p package)
-    (condition-case err
-	(package-install package)
-      (package-refresh-contents))
-    (package-install package))
-  (unless (package-installed-p package)
-    (package-refresh-contents)
-    (package-install package)))
-(defun require-package (name args _state &optional _no-refresh)
-  (unless (package-installed-p package)
     (condition-case-unless-debug err
 	(progn
 	  (when (assoc package (bound-and-true-p
