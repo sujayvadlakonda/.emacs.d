@@ -3,6 +3,9 @@
 (push '("melpa" . "http://melpa.org/packages/") package-archives)
 (defun require-package (package)
   (unless (package-installed-p package)
+    (package-install package))
+  (unless (package-installed-p package)
+    (package-refresh-contents)
     (package-install package)))
 
 ;; Emacs internal
@@ -11,6 +14,7 @@
 (setq create-lockfiles nil)
 (setq auto-save-default nil)
 (setq make-backup-files nil)
+(setq inhibit-startup-screen t)
 
 ;; Keyboard 
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
@@ -20,6 +24,25 @@
       mac-option-modifier 'none)
 
 ;; Minibuffer
+(require-package 'vertico)
+(vertico-mode)
+
+(require-package 'orderless)
+(require 'orderless)
+(setq completion-styles '(orderless basic))
+
+(defun minibuffer-backward-delete ()
+  "Backward delete but by directories when possible."
+  (interactive)
+  (if (eq ?/ (char-before))
+      (ignore-errors
+        (backward-delete-char 1)
+        (while (not (eq ?/ (char-before)))
+          (backward-delete-char 1)))
+    (backward-delete-char 1)))
+
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map [remap delete-backward-char] 'minibuffer-backward-delete))
 
 ;; Visual feedback for editing
 (display-line-numbers-mode)
@@ -30,8 +53,8 @@
 ;; Editing behavior/commands
 (electric-pair-mode)
 
-(add-hook 'prog-mode-hook 'abbrev-mode)
 (setq save-abbrevs nil)
+(abbrev-mode)
 
 (global-set-key (kbd "M-/") 'hippie-expand)
 (setq hippie-expand-try-functions-list
@@ -44,6 +67,7 @@
 ;; Vim
 (require-package 'evil)
 (setq evil-want-insert-state-keybinding nil)
+(setq evil-undo-system 'undo-redo)
 (evil-mode)
 
 (evil-global-set-key 'motion (kbd "h") 'evil-repeat-find-char)
@@ -55,8 +79,13 @@
 (evil-global-set-key 'normal (kbd "SPC b") 'switch-to-buffer)
 (evil-global-set-key 'normal (kbd "SPC s") 'save-buffer)
 
+(evil-global-set-key 'normal (kbd "SPC 1") 'delete-other-windows)
+
+
 (require-package 'evil-mc)
 (global-evil-mc-mode)
+
+;; Emacs Lisp
 
 ;; Java
 (define-skeleton java-sout-skeleton "" nil "System.out.println(" _ ");")
