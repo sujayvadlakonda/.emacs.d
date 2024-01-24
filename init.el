@@ -3,11 +3,33 @@
 (push '("melpa" . "http://melpa.org/packages/") package-archives)
 (defun require-package (package)
   (unless (package-installed-p package)
+    (condition-case err
+	(package-install package)
+      (package-refresh-contents))
     (package-install package))
   (unless (package-installed-p package)
     (package-refresh-contents)
     (package-install package)))
-
+(defun require-package (name args _state &optional _no-refresh)
+  (unless (package-installed-p package)
+    (condition-case-unless-debug err
+	(progn
+	  (when (assoc package (bound-and-true-p
+				package-pinned-packages))
+	    (package-read-all-archive-contents))
+	  (if (assoc package package-archive-contents)
+	      (package-install package)
+	    (package-refresh-contents)
+	    (when (assoc package (bound-and-true-p
+				  package-pinned-packages))
+	      (package-read-all-archive-contents))
+	    (package-install package))
+	  t)
+      (error
+       (display-warning 'use-package
+			(format "Failed to install %s: %s"
+				name (error-message-string err))
+			:error)))))))
 ;; Emacs internal
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (setq native-comp-async-report-warnings-errors nil)
