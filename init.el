@@ -29,7 +29,7 @@
        (display-warning 'use-package
 			(format "Failed to install %s: %s"
 				name (error-message-string err))
-			:error)))))))
+			:error)))))
 ;; Emacs internal
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (setq native-comp-async-report-warnings-errors nil)
