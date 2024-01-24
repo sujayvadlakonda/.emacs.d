@@ -15,6 +15,8 @@
 (setq auto-save-default nil)
 (setq make-backup-files nil)
 (setq inhibit-startup-screen t)
+(scroll-bar-mode 0)
+(global-auto-revert-mode)
 
 ;; Keyboard 
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
@@ -45,7 +47,7 @@
   (define-key minibuffer-mode-map [remap delete-backward-char] 'minibuffer-backward-delete))
 
 ;; Visual feedback for editing
-(display-line-numbers-mode)
+(global-display-line-numbers-mode)
 
 (setq visible-cursor nil)
 (blink-cursor-mode 0)
