@@ -92,6 +92,8 @@
 (evil-global-set-key 'motion (kbd ";") 'evil-forward-char)
 
 (evil-global-set-key 'normal (kbd "SPC b") 'switch-to-buffer)
+(evil-global-set-key 'normal (kbd "SPC f") 'find-file)
+(evil-global-set-key 'normal (kbd "SPC o") 'other-window)
 (evil-global-set-key 'normal (kbd "SPC s") 'save-buffer)
 
 (evil-global-set-key 'normal (kbd "SPC 1") 'delete-other-windows)
