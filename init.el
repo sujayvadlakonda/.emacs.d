@@ -28,6 +28,7 @@
 (setq auto-save-default nil)
 (setq make-backup-files nil)
 (setq inhibit-startup-screen t)
+(setq-default truncate-lines t)
 (scroll-bar-mode 0)
 (global-auto-revert-mode)
 
@@ -96,8 +97,11 @@
 (evil-global-set-key 'normal (kbd "SPC o") 'other-window)
 (evil-global-set-key 'normal (kbd "SPC s") 'save-buffer)
 
+(evil-global-set-key 'normal (kbd "SPC 0") 'delete-window)
 (evil-global-set-key 'normal (kbd "SPC 1") 'delete-other-windows)
 
+(evil-global-set-key 'normal (kbd "SPC -") 'global-text-scale-adjust)
+(evil-global-set-key 'normal (kbd "SPC +") 'global-text-scale-adjust)
 
 (require-package 'evil-mc)
 (global-evil-mc-mode)
