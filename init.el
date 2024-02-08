@@ -1,37 +1,26 @@
-;; Package managment
+;; Package management
 (require 'package)
 (push '("melpa" . "http://melpa.org/packages/") package-archives)
 (defun require-package (package)
   (unless (package-installed-p package)
-    (condition-case-unless-debug err
-	(progn
-	  (when (assoc package (bound-and-true-p
-				package-pinned-packages))
-	    (package-read-all-archive-contents))
-	  (if (assoc package package-archive-contents)
-	      (package-install package)
-	    (package-refresh-contents)
-	    (when (assoc package (bound-and-true-p
-				  package-pinned-packages))
-	      (package-read-all-archive-contents))
-	    (package-install package))
-	  t)
-      (error
-       (display-warning 'use-package
-			(format "Failed to install %s: %s"
-				name (error-message-string err))
-			:error)))))
+    (if (assoc package package-archive-contents)
+	(package-install package)
+      (package-refresh-contents)
+      (package-install package))))
+
 ;; Emacs internal
 (setq custom-file (concat user-emacs-directory "custom.el"))
-(setq native-comp-async-report-warnings-errors nil)
+(setq warning-minimum-level :error)
 (setq create-lockfiles nil)
 (setq auto-save-default nil)
 (setq make-backup-files nil)
 (setq inhibit-startup-screen t)
 (setq-default truncate-lines t)
-(scroll-bar-mode 0)
 (global-auto-revert-mode)
-
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(menu-bar-mode -1)
+(setq ring-bell-function 'ignore)
 ;; Keyboard 
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
 (setq mac-option-key-is-meta nil
@@ -86,27 +75,34 @@
 (setq evil-undo-system 'undo-redo)
 (evil-mode)
 
+
 (evil-global-set-key 'motion (kbd "h") 'evil-repeat-find-char)
 (evil-global-set-key 'motion (kbd "j") 'evil-backward-char)
 (evil-global-set-key 'motion (kbd "k") 'evil-next-line)
 (evil-global-set-key 'motion (kbd "l") 'evil-previous-line)
 (evil-global-set-key 'motion (kbd ";") 'evil-forward-char)
 
-(evil-global-set-key 'normal (kbd "SPC b") 'switch-to-buffer)
-(evil-global-set-key 'normal (kbd "SPC f") 'find-file)
-(evil-global-set-key 'normal (kbd "SPC o") 'other-window)
-(evil-global-set-key 'normal (kbd "SPC s") 'save-buffer)
+(evil-define-key '(normal motion) global-map
+  (kbd "SPC b") 'switch-to-buffer
+  (kbd "SPC f") 'find-file
+  (kbd "SPC o") 'other-window
+  (kbd "SPC s") 'save-buffer
+  (kbd "SPC 0") 'delete-window
+  (kbd "SPC 1") 'delete-other-windows
+  (kbd "SPC 2") (lambda () (interactive) (split-window-below) (other-window 1) (switch-to-buffer nil))
+  (kbd "SPC 3") (lambda () (interactive) (split-window-right) (other-window 1) (switch-to-buffer nil))
+  (kbd "SPC -") 'global-text-scale-adjust
+  (kbd "SPC +") 'global-text-scale-adjust)
 
-(evil-global-set-key 'normal (kbd "SPC 0") 'delete-window)
-(evil-global-set-key 'normal (kbd "SPC 1") 'delete-other-windows)
+(require-package 'multiple-cursors)
+(evil-define-key '(normal visual) global-map
+  (kbd "n") 'mc/mark-next-like-this
+  (kbd "R") 'mc/mark-all-like-this)
 
-(evil-global-set-key 'normal (kbd "SPC -") 'global-text-scale-adjust)
-(evil-global-set-key 'normal (kbd "SPC +") 'global-text-scale-adjust)
 
-(require-package 'evil-mc)
-(global-evil-mc-mode)
+;; Git
+(require-package 'magit)
 
-;; Emacs Lisp
 
 ;; Java
 (define-skeleton java-sout-skeleton "" nil "System.out.println(" _ ");")
