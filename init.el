@@ -92,7 +92,8 @@
   (kbd "SPC 2") (lambda () (interactive) (split-window-below) (other-window 1) (switch-to-buffer nil))
   (kbd "SPC 3") (lambda () (interactive) (split-window-right) (other-window 1) (switch-to-buffer nil))
   (kbd "SPC -") 'global-text-scale-adjust
-  (kbd "SPC +") 'global-text-scale-adjust)
+  (kbd "SPC +") 'global-text-scale-adjust
+  (kbd "SPC =") 'global-text-scale-adjust)
 
 (require-package 'multiple-cursors)
 (evil-define-key '(normal visual) global-map
