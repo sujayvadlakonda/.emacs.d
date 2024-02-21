@@ -21,6 +21,7 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (menu-bar-mode -1)
 (setq ring-bell-function 'ignore)
+
 ;; Keyboard 
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
 (setq mac-option-key-is-meta nil
@@ -85,6 +86,7 @@
 (evil-define-key '(normal motion) global-map
   (kbd "SPC b") 'switch-to-buffer
   (kbd "SPC f") 'find-file
+  (kbd "SPC k") (lambda () (interactive) (kill-buffer nil))
   (kbd "SPC o") 'other-window
   (kbd "SPC s") 'save-buffer
   (kbd "SPC 0") 'delete-window
@@ -101,11 +103,34 @@
   (kbd "R") 'mc/mark-all-like-this)
 
 
-;; Git
-(require-package 'magit)
-
-
 ;; Java
 (define-skeleton java-sout-skeleton "" nil "System.out.println(" _ ");")
 (with-eval-after-load 'cc-mode
   (define-abbrev java-mode-abbrev-table "sout" "" 'java-sout-skeleton))
+
+
+;; Theme
+(require-package 'modus-themes)
+(modus-themes-select 'modus-vivendi-tinted)
+
+;; Mode Line
+(setq-default mode-line-format
+  (list
+    ;; the buffer name
+   "%b"
+
+   ;; was this buffer modified since the last save?
+    '(:eval (and (buffer-modified-p)
+                 (propertize " M "
+                             'face nil
+                             'help-echo "Buffer has been modified")))
+
+    ;; is this buffer read-only?
+    '(:eval (and buffer-read-only
+                 (propertize " R " 'face nil 'help-echo "Buffer is read-only")))
+    ))
+
+
+;; Unorganized
+(require-package 'which-key)
+(which-key-mode)
