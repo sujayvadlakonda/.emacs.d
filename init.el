@@ -100,6 +100,7 @@
 (require-package 'multiple-cursors)
 (evil-define-key '(normal visual) global-map
   (kbd "n") 'mc/mark-next-like-this
+  (kbd "N") 'mc/skip-to-next-like-this
   (kbd "R") 'mc/mark-all-like-this)
 
 
@@ -117,7 +118,7 @@
 (setq-default mode-line-format
   (list
     ;; the buffer name
-   "%b"
+   " %b"
 
    ;; was this buffer modified since the last save?
     '(:eval (and (buffer-modified-p)
@@ -131,6 +132,15 @@
     ))
 
 
+;; Font
+(cond
+ ((fint-font (font-spec :name "JetBrains Mono"))
+  (set-frame-font "JetBrains Mono 20" nil t))
+ ((find-font (font-spec :name "Consolas"))
+  (set-frame-font "Consolas 20" nil t))
+ (t (set-frame-font "Monospace 20" nil t)))
+
 ;; Unorganized
 (require-package 'which-key)
 (which-key-mode)
+
