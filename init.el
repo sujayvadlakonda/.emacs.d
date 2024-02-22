@@ -134,7 +134,7 @@
 
 ;; Font
 (cond
- ((fint-font (font-spec :name "JetBrains Mono"))
+ ((find-font (font-spec :name "JetBrains Mono"))
   (set-frame-font "JetBrains Mono 20" nil t))
  ((find-font (font-spec :name "Consolas"))
   (set-frame-font "Consolas 20" nil t))
