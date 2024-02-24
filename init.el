@@ -22,6 +22,12 @@
 (menu-bar-mode -1)
 (setq ring-bell-function 'ignore)
 
+(require-package 'gcmh)
+(setq gc-cons-threshold most-positive-fixnum)
+(setq gcmh-idle-delay 'auto)
+(setq gcmh-auto-delay-factor 10)
+(setq gcmh-high-cons-threshold (* 16 1024 1024))
+
 ;; Keyboard 
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
 (setq mac-option-key-is-meta nil
