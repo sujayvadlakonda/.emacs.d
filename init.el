@@ -92,7 +92,7 @@
 (evil-define-key '(normal motion) global-map
   (kbd "SPC b") 'switch-to-buffer
   (kbd "SPC f") 'find-file
-  (kbd "SPC k") (lambda () (interactive) (kill-buffer nil))
+  (kbd "SPC k") (lambda () (interactive) (kill-buffer nil) (message "Killed Buffer!"))
   (kbd "SPC o") 'other-window
   (kbd "SPC s") 'save-buffer
   (kbd "SPC 0") 'delete-window
