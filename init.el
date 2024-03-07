@@ -24,9 +24,9 @@
 
 (require-package 'gcmh)
 (setq gc-cons-threshold most-positive-fixnum)
-(setq gcmh-idle-delay 'auto)
-(setq gcmh-auto-delay-factor 10)
-(setq gcmh-high-cons-threshold (* 16 1024 1024))
+(setq gcmh-high-cons-threshold (* 128 1024 1024))
+(add-hook 'after-init-hook 'gcmh-mode)
+(setq jit-lock-defer-time 0)
 
 ;; Keyboard 
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
@@ -56,11 +56,19 @@
 (with-eval-after-load 'minibuffer
   (define-key minibuffer-mode-map [remap delete-backward-char] 'minibuffer-backward-delete))
 
+(setq-default
+ recentf-max-saved-items 1000
+ recentf-exclude `("/tmp/" "/ssh:" ,(concat package-user-dir "/.*-autoloads\\.el\\'")))
+(recentf-mode)
+
 ;; Visual feedback for editing
 (global-display-line-numbers-mode)
 
 (setq visible-cursor nil)
 (blink-cursor-mode 0)
+
+(require-package 'which-key)
+(which-key-mode)
 
 ;; Editing behavior/commands
 (electric-pair-mode)
@@ -78,7 +86,7 @@
 
 ;; Vim
 (require-package 'evil)
-(setq evil-want-insert-state-keybinding nil)
+(setq evil-disable-insert-state-bindings t)
 (setq evil-undo-system 'undo-redo)
 (evil-mode)
 
@@ -109,6 +117,11 @@
   (kbd "N") 'mc/skip-to-next-like-this
   (kbd "R") 'mc/mark-all-like-this)
 
+;; Org
+(setq-default org-startup-folded t)
+
+(evil-define-key '(normal motion) org-mode-map
+  (kbd "TAB") 'org-cycle)
 
 ;; Java
 (define-skeleton java-sout-skeleton "" nil "System.out.println(" _ ");")
@@ -145,8 +158,4 @@
  ((find-font (font-spec :name "Consolas"))
   (set-frame-font "Consolas 20" nil t))
  (t (set-frame-font "Monospace 20" nil t)))
-
-;; Unorganized
-(require-package 'which-key)
-(which-key-mode)
 
