@@ -43,6 +43,8 @@
 (require 'orderless)
 (setq completion-styles '(orderless basic))
 
+(require-package 'consult)
+
 (defun minibuffer-backward-delete ()
   "Backward delete but by directories when possible."
   (interactive)
@@ -98,7 +100,7 @@
 (evil-global-set-key 'motion (kbd ";") 'evil-forward-char)
 
 (evil-define-key '(normal motion) global-map
-  (kbd "SPC b") 'switch-to-buffer
+  (kbd "SPC b") 'consult-buffer
   (kbd "SPC f") 'find-file
   (kbd "SPC k") (lambda () (interactive) (kill-buffer nil) (message "Killed Buffer!"))
   (kbd "SPC o") 'other-window
