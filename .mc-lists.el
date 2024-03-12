@@ -12,6 +12,7 @@
 	evil-delete
 	evil-delete-char
 	evil-exit-visual-state
+	evil-find-char
 	evil-force-normal-state
 	evil-forward-char
 	evil-forward-word-begin
@@ -24,10 +25,13 @@
 	evil-paste-after
 	evil-previous-line
 	evil-replace
+	org-ctrl-c-ctrl-c
+	org-self-insert-command
 	))
 
 (setq mc/cmds-to-run-once
       '(
+	evil-downcase
 	evil-multiedit-abort
 	evil-visual-char
 	iedit-switch-to-mc-mode

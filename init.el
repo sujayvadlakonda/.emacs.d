@@ -161,3 +161,16 @@
   (set-frame-font "Consolas 20" nil t))
  (t (set-frame-font "Monospace 20" nil t)))
 
+;; Buffer List
+(require-package 'ibuffer-vc)
+
+(defun ibuffer-set-up-preferred-filters ()
+  (ibuffer-vc-set-filter-groups-by-vc-root)
+  (unless (eq ibuffer-sorting-mode 'filename/process)
+    (ibuffer-do-sort-by-filename/process)))
+
+(add-hook 'ibuffer-hook 'ibuffer-set-up-preferred-filters)
+
+(setq-default ibuffer-show-empty-filter-groups nil)
+
+(add-hook 'ibuffer-hook 'evil-motion-state)
