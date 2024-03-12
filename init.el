@@ -105,6 +105,7 @@
   (kbd "SPC k") (lambda () (interactive) (kill-buffer nil) (message "Killed Buffer!"))
   (kbd "SPC o") 'other-window
   (kbd "SPC s") 'save-buffer
+  (kbd "SPC B") 'ibuffer
   (kbd "SPC 0") 'delete-window
   (kbd "SPC 1") 'delete-other-windows
   (kbd "SPC 2") (lambda () (interactive) (split-window-below) (other-window 1) (switch-to-buffer nil))
