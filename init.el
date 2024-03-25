@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; Package management
 (require 'package)
 (push '("melpa" . "http://melpa.org/packages/") package-archives)
@@ -28,6 +30,18 @@
 (add-hook 'after-init-hook 'gcmh-mode)
 (setq jit-lock-defer-time 0)
 
+(defun create-missing-directories ()
+  "Create any missing directories of the visited file."
+  (let ((target-directory (file-name-directory buffer-file-name)))
+    (unless (file-exists-p target-directory)
+      (make-directory target-directory t))))
+
+(add-to-list 'find-file-not-found-functions #'create-missing-directories)
+
+;; Process performance tuning
+(setq read-process-output-max (* 4 1024 1024))
+(setq process-adaptive-read-buffering nil)
+
 ;; Keyboard 
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
 (setq mac-option-key-is-meta nil
@@ -44,6 +58,15 @@
 (setq completion-styles '(orderless basic))
 
 (require-package 'consult)
+(defmacro sanityinc/no-consult-preview (&rest cmds)
+  `(with-eval-after-load 'consult
+     (consult-customize ,@cmds :preview-key "M-P")))
+
+(sanityinc/no-consult-preview
+ consult-ripgrep
+ consult-git-grep consult-grep
+ consult-bookmark consult-recent-file consult-xref
+ consult--source-recent-file consult--source-project-recent-file consult--source-bookmark)
 
 (defun minibuffer-backward-delete ()
   "Backward delete but by directories when possible."
@@ -64,7 +87,7 @@
 (recentf-mode)
 
 ;; Visual feedback for editing
-(global-display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (setq visible-cursor nil)
 (blink-cursor-mode 0)
@@ -175,3 +198,9 @@
 (setq-default ibuffer-show-empty-filter-groups nil)
 
 (add-hook 'ibuffer-hook 'evil-motion-state)
+;; Language Server Protocol
+(require-package 'eglot)
+;; Kotlin
+(require-package 'kotlin-mode)
+(with-eval-after-load 'eglot
+  (add-hook 'kotlin-mode-hook 'eglot))
