@@ -145,6 +145,7 @@
 
 ;; Org
 (setq-default org-startup-folded t)
+(setq org-cycle-emulate-tab nil) ;; Make tab key call org-cycle everywhere in org-mode buffer
 
 (evil-define-key '(normal motion) org-mode-map
   (kbd "TAB") 'org-cycle)
