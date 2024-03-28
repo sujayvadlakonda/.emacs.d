@@ -122,7 +122,7 @@
 (evil-global-set-key 'motion (kbd "l") 'evil-previous-line)
 (evil-global-set-key 'motion (kbd ";") 'evil-forward-char)
 
-(evil-define-key '(normal motion) global-map
+(evil-define-key* '(normal motion) global-map
   (kbd "SPC b") 'consult-buffer
   (kbd "SPC f") 'find-file
   (kbd "SPC k") (lambda () (interactive) (kill-buffer nil) (message "Killed Buffer!"))
@@ -137,18 +137,22 @@
   (kbd "SPC +") 'global-text-scale-adjust
   (kbd "SPC =") 'global-text-scale-adjust)
 
-(require-package 'multiple-cursors)
-(evil-define-key '(normal visual) global-map
-  (kbd "n") 'mc/mark-next-like-this
-  (kbd "N") 'mc/skip-to-next-like-this
-  (kbd "R") 'mc/mark-all-like-this)
+(require-package 'evil-multiedit)
+(evil-define-key* 'visual 'global
+  (kbd "n")   #'evil-multiedit-match-and-next
+  (kbd "N")   #'evil-multiedit-match-and-prev
+  (kbd "R")   #'evil-multiedit-match-all)
+(evil-define-key* '(normal insert) 'global
+  (kbd "n")   #'evil-multiedit-match-symbol-and-next
+  (kbd "N")   #'evil-multiedit-match-symbol-and-prev)
 
 ;; Org
 (setq-default org-startup-folded t)
-(setq org-cycle-emulate-tab nil) ;; Make tab key call org-cycle everywhere in org-mode buffer
+(setq org-cycle-emulate-tab nil) ; Make tab key call org-cycle everywhere in org-mode buffer
 
-(evil-define-key '(normal motion) org-mode-map
-  (kbd "TAB") 'org-cycle)
+(with-eval-after-load 'org
+  (evil-define-key* '(normal motion) org-mode-map
+    (kbd "TAB") 'org-cycle))
 
 ;; Java
 (define-skeleton java-sout-skeleton "" nil "System.out.println(" _ ");")
@@ -162,20 +166,20 @@
 
 ;; Mode Line
 (setq-default mode-line-format
-  (list
-    ;; the buffer name
-   " %b"
+	      (list
+	       ;; the buffer name
+	       " %b"
 
-   ;; was this buffer modified since the last save?
-    '(:eval (and (buffer-modified-p)
-                 (propertize " M "
-                             'face nil
-                             'help-echo "Buffer has been modified")))
+	       ;; was this buffer modified since the last save?
+	       '(:eval (and (buffer-modified-p)
+			    (propertize " M "
+					'face nil
+					'help-echo "Buffer has been modified")))
 
-    ;; is this buffer read-only?
-    '(:eval (and buffer-read-only
-                 (propertize " R " 'face nil 'help-echo "Buffer is read-only")))
-    ))
+	       ;; is this buffer read-only?
+	       '(:eval (and buffer-read-only
+			    (propertize " R " 'face nil 'help-echo "Buffer is read-only")))
+	       ))
 
 
 ;; Font
