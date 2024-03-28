@@ -142,7 +142,7 @@
   (kbd "n")   #'evil-multiedit-match-and-next
   (kbd "N")   #'evil-multiedit-match-and-prev
   (kbd "R")   #'evil-multiedit-match-all)
-(evil-define-key* '(normal insert) 'global
+(evil-define-key* 'normal 'global
   (kbd "n")   #'evil-multiedit-match-symbol-and-next
   (kbd "N")   #'evil-multiedit-match-symbol-and-prev)
 
