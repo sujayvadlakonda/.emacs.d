@@ -205,7 +205,66 @@
 (add-hook 'ibuffer-hook 'evil-motion-state)
 ;; Language Server Protocol
 (require-package 'eglot)
+;; Grep -- project search
+(setq-default grep-highlight-matches t
+              grep-scroll-output t)
+
+(require-package 'wgrep)
+(with-eval-after-load 'grep
+  (dolist (key (list (kbd "C-c C-q") (kbd "w")))
+    (define-key grep-mode-map key 'wgrep-change-to-wgrep-mode)))
+
+(when (and (executable-find "ag")
+           (require-package 'ag))
+  (require-package 'wgrep-ag)
+  (setq-default ag-highlight-search t)
+  (global-set-key (kbd "M-?") 'ag-project))
+
+(when (and (executable-find "rg")
+           (require-package 'rg))
+  (global-set-key (kbd "M-?") 'rg-project))
+
 ;; Kotlin
 (require-package 'kotlin-mode)
 (with-eval-after-load 'eglot
   (add-hook 'kotlin-mode-hook 'eglot))
+
+;; Emacs Commands
+(defun delete-this-file ()
+  "Delete the current file, and kill the buffer."
+  (interactive)
+  (unless (buffer-file-name)
+    (error "No file is currently being edited"))
+  (when (yes-or-no-p (format "Really delete '%s'?"
+                             (file-name-nondirectory buffer-file-name)))
+    (delete-file (buffer-file-name))
+    (kill-this-buffer)))
+
+(if (fboundp 'rename-visited-file)
+    (defalias 'rename-this-file-and-buffer 'rename-visited-file)
+  (defun rename-this-file-and-buffer (new-name)
+    "Renames both current buffer and file it's visiting to NEW-NAME."
+    (interactive "sNew name: ")
+    (let ((name (buffer-name))
+          (filename (buffer-file-name)))
+      (unless filename
+        (error "Buffer '%s' is not visiting a file!" name))
+      (progn
+        (when (file-exists-p filename)
+          (rename-file filename new-name 1))
+        (set-visited-file-name new-name)
+        (rename-buffer new-name)))))
+
+;; Editing commands
+(require-package 'unfill)
+
+;; Macro performance
+(defun sanityinc/disable-features-during-macro-call (orig &rest args)
+  "When running a macro, disable features that might be expensive.
+ORIG is the advised function, which is called with its ARGS."
+  (let (post-command-hook
+	font-lock-mode
+	(tab-always-indent (or (eq 'complete tab-always-indent) tab-always-indent)))
+    (apply orig args)))
+
+(advice-add 'kmacro-call-macro :around 'sanityinc/disable-features-during-macro-call)
