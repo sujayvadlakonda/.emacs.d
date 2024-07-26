@@ -30,6 +30,8 @@
 (add-hook 'after-init-hook 'gcmh-mode)
 (setq jit-lock-defer-time 0)
 
+(require 'init-preload-local nil t)
+
 (defun create-missing-directories ()
   "Create any missing directories of the visited file."
   (let ((target-directory (file-name-directory buffer-file-name)))
@@ -268,3 +270,5 @@ ORIG is the advised function, which is called with its ARGS."
     (apply orig args)))
 
 (advice-add 'kmacro-call-macro :around 'sanityinc/disable-features-during-macro-call)
+
+(require 'init-local nil t)
