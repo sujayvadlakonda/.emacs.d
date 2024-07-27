@@ -30,7 +30,7 @@
 (add-hook 'after-init-hook 'gcmh-mode)
 (setq jit-lock-defer-time 0)
 
-(require 'init-preload-local nil t)
+(load "~/.emacs.d/init-preload-local.el")
 
 (defun create-missing-directories ()
   "Create any missing directories of the visited file."
