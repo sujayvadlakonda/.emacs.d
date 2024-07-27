@@ -23,6 +23,9 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (menu-bar-mode -1)
 (setq ring-bell-function 'ignore)
+(if (boundp 'use-short-answers)
+    (setq use-short-answers t)
+  (fset 'yes-or-no-p 'y-or-n-p))
 
 (require-package 'gcmh)
 (setq gc-cons-threshold most-positive-fixnum)
