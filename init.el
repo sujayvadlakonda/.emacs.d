@@ -33,7 +33,7 @@
 (add-hook 'after-init-hook 'gcmh-mode)
 (setq jit-lock-defer-time 0)
 
-(load "~/.emacs.d/init-preload-local.el")
+(load "~/.emacs.d/init-preload-local.el" t)
 
 (defun create-missing-directories ()
   "Create any missing directories of the visited file."
@@ -274,4 +274,4 @@ ORIG is the advised function, which is called with its ARGS."
 
 (advice-add 'kmacro-call-macro :around 'sanityinc/disable-features-during-macro-call)
 
-(require 'init-local nil t)
+(load "~/.emacs.d/init-local.el" t)
