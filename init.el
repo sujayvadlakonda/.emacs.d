@@ -151,6 +151,8 @@
   (kbd "n")   #'evil-multiedit-match-symbol-and-next
   (kbd "N")   #'evil-multiedit-match-symbol-and-prev)
 
+(evil-define-key* 'normal 'global (kbd "C-s") #'consult-line)
+
 ;; Org
 (setq-default org-startup-folded t)
 (setq org-cycle-emulate-tab nil) ; Make tab key call org-cycle everywhere in org-mode buffer
