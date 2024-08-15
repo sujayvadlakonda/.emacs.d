@@ -126,6 +126,8 @@
 (evil-global-set-key 'motion (kbd "k") 'evil-next-line)
 (evil-global-set-key 'motion (kbd "l") 'evil-previous-line)
 (evil-global-set-key 'motion (kbd ";") 'evil-forward-char)
+ 
+(evil-define-key* 'normal 'global (kbd "C-s") #'consult-line)
 
 (evil-define-key* '(normal motion) global-map
   (kbd "SPC b") 'consult-buffer
@@ -151,7 +153,8 @@
   (kbd "n")   #'evil-multiedit-match-symbol-and-next
   (kbd "N")   #'evil-multiedit-match-symbol-and-prev)
 
-(evil-define-key* 'normal 'global (kbd "C-s") #'consult-line)
+(require-package 'evil-mc)
+(global-evil-mc-mode)
 
 ;; Org
 (setq-default org-startup-folded t)
