@@ -145,13 +145,38 @@
   (kbd "SPC =") 'global-text-scale-adjust)
 
 (require-package 'evil-multiedit)
+
+(defun evil-multiedit-match-and-goto-next ()
+  "The point of this function is to move the cursor to next selection simultaneously.
+Doing so should make `iedit-toggle-selection' skip the most recent selected area.
+An unintended benefit could be that we can select targets off the screen because the screen should scroll with the cursor movement."
+  (interactive)
+  (evil-multiedit-match-and-next)
+  (evil-multiedit-next))
+
+(defun evil-multiedit-skip-match-and-goto-next ()
+  (interactive)
+  (iedit-toggle-selection)
+  (evil-multiedit-match-and-goto-next))
+
+(defun evil-multiedit-match-symbol-and-goto-next ()
+  (interactive)
+  (evil-multiedit-match-symbol-and-next)
+  (evil-multiedit-next))
+
+(defun evil-multiedit-skip-match-symbol-and-goto-next ()
+  (interactive)
+  (iedit-toggle-selection)
+  (evil-multiedit-match-symbol-and-goto-next))
+
+
 (evil-define-key* 'visual 'global
-  (kbd "n")   #'evil-multiedit-match-and-next
-  (kbd "N")   #'evil-multiedit-match-and-prev
+  (kbd "n")   #'evil-multiedit-match-and-goto-next
+  (kbd "N")   #'evil-multiedit-skip-match-and-goto-next
   (kbd "R")   #'evil-multiedit-match-all)
 (evil-define-key* 'normal 'global
-  (kbd "n")   #'evil-multiedit-match-symbol-and-next
-  (kbd "N")   #'evil-multiedit-match-symbol-and-prev)
+  (kbd "n")   #'evil-multiedit-match-symbol-and-goto-next
+  (kbd "N")   #'evil-multiedit-skip-match-symbol-and-goto-next)
 
 (require-package 'evil-mc)
 (global-evil-mc-mode)
