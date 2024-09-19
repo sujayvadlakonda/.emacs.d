@@ -137,7 +137,7 @@
   (kbd "SPC s") 'save-buffer
   (kbd "SPC B") 'ibuffer
   (kbd "SPC 0") 'delete-window
-  (kbd "SPC 1") 'delete-other-windows
+  (kbd "SPC 1") 'sanityinc/toggle-delete-other-windows
   (kbd "SPC 2") (lambda () (interactive) (split-window-below) (other-window 1) (switch-to-buffer nil))
   (kbd "SPC 3") (lambda () (interactive) (split-window-right) (other-window 1) (switch-to-buffer nil))
   (kbd "SPC -") 'global-text-scale-adjust
@@ -303,5 +303,18 @@ ORIG is the advised function, which is called with its ARGS."
     (apply orig args)))
 
 (advice-add 'kmacro-call-macro :around 'sanityinc/disable-features-during-macro-call)
+
+;; Windows
+(winner-mode) ; provide undo window setup
+
+(defun sanityinc/toggle-delete-other-windows ()
+  "Delete other windows in frame if any, or restore previous window config."
+  (interactive)
+  (if (and winner-mode
+           (equal (selected-window) (next-window)))
+      (winner-undo)
+    (delete-other-windows)))
+
+(global-set-key (kbd "C-x 1") 'sanityinc/toggle-delete-other-windows)
 
 (load "~/.emacs.d/init-local.el" t)
