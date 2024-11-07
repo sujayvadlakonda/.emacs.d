@@ -144,6 +144,9 @@
   (kbd "SPC +") 'global-text-scale-adjust
   (kbd "SPC =") 'global-text-scale-adjust)
 
+(require-package 'evil-numbers)
+
+
 (require-package 'evil-multiedit)
 
 (defun evil-multiedit-match-and-goto-next ()
@@ -188,6 +191,10 @@ An unintended benefit could be that we can select targets off the screen because
 (with-eval-after-load 'org
   (evil-define-key* '(normal motion) org-mode-map
     (kbd "TAB") 'org-cycle))
+
+(setq org-todo-keywords
+      (quote ((sequence "TODO" "DONE")
+	      (sequence "HOLD" "DONE"))))
 
 ;; Java
 (define-skeleton java-sout-skeleton "" nil "System.out.println(" _ ");")
@@ -249,14 +256,14 @@ An unintended benefit could be that we can select targets off the screen because
   (dolist (key (list (kbd "C-c C-q") (kbd "w")))
     (define-key grep-mode-map key 'wgrep-change-to-wgrep-mode)))
 
-(when (and (executable-find "ag")
-           (require-package 'ag))
+(when (executable-find "ag")
+  (require-package 'ag)
   (require-package 'wgrep-ag)
   (setq-default ag-highlight-search t)
   (global-set-key (kbd "M-?") 'ag-project))
 
-(when (and (executable-find "rg")
-           (require-package 'rg))
+(when (executable-find "rg")
+  (require-package 'rg)
   (global-set-key (kbd "M-?") 'rg-project))
 
 ;; Kotlin
