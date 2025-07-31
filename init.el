@@ -125,6 +125,8 @@
 (evil-global-set-key 'motion (kbd "k") 'evil-next-visual-line)
 (evil-global-set-key 'motion (kbd "l") 'evil-previous-visual-line)
 (evil-global-set-key 'motion (kbd ";") 'evil-forward-char)
+
+(evil-global-set-key 'motion (kbd "TAB") 'evil-toggle-fold)
  
 (evil-define-key* 'normal 'global (kbd "C-s") #'consult-line)
 
@@ -185,15 +187,17 @@ An unintended benefit could be that we can select targets off the screen because
 
 ;; Org
 (setq-default org-startup-folded t)
-(setq org-cycle-emulate-tab nil) ; Make tab key call org-cycle everywhere in org-mode buffer
-
-(with-eval-after-load 'org
-  (evil-define-key* '(normal motion) org-mode-map
-    (kbd "TAB") 'org-cycle))
-
 (setq org-todo-keywords
       (quote ((sequence "TODO" "DONE")
 	      (sequence "HOLD" "DONE"))))
+
+;; Writing
+(set-fill-column 80)
+(require-package 'olivetti)
+(add-hook 'text-mode-hook 'olivetti-mode)
+
+;; Markdown
+(require-package 'markdown-mode)
 
 ;; Java
 (define-skeleton java-sout-skeleton "" nil "System.out.println(" _ ");")
@@ -324,3 +328,4 @@ ORIG is the advised function, which is called with its ARGS."
 (global-set-key (kbd "C-x 1") 'sanityinc/toggle-delete-other-windows)
 
 (load "~/.emacs.d/init-local.el" t)
+
