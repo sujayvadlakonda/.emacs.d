@@ -5,10 +5,9 @@
 (push '("melpa" . "http://melpa.org/packages/") package-archives)
 (defun require-package (package)
   (unless (package-installed-p package)
-    (if (assoc package package-archive-contents)
-	(package-install package)
-      (package-refresh-contents)
-      (package-install package))))
+    (unless (assoc package package-archive-contents)
+      (package-refresh-contents))
+    (package-install package)))
 
 ;; Emacs internal
 (setq custom-file (concat user-emacs-directory "custom.el"))
