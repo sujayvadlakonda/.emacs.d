@@ -122,8 +122,8 @@
 
 (evil-global-set-key 'motion (kbd "h") 'evil-repeat-find-char)
 (evil-global-set-key 'motion (kbd "j") 'evil-backward-char)
-(evil-global-set-key 'motion (kbd "k") 'evil-next-line)
-(evil-global-set-key 'motion (kbd "l") 'evil-previous-line)
+(evil-global-set-key 'motion (kbd "k") 'evil-next-visual-line)
+(evil-global-set-key 'motion (kbd "l") 'evil-previous-visual-line)
 (evil-global-set-key 'motion (kbd ";") 'evil-forward-char)
  
 (evil-define-key* 'normal 'global (kbd "C-s") #'consult-line)
