@@ -7,3 +7,6 @@ eln-cache/
 elpa/
 recentf
 transient/
+org-clock-save.el
+.org-id-locations
+bookmarks
