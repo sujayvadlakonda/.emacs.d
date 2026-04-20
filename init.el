@@ -136,6 +136,7 @@
   (kbd "SPC k") (lambda () (interactive) (kill-buffer nil) (message "Killed Buffer!"))
   (kbd "SPC o") 'other-window
   (kbd "SPC s") 'save-buffer
+  (kbd "SPC x") 'execute-extended-command
   (kbd "SPC B") 'ibuffer
   (kbd "SPC 0") 'delete-window
   (kbd "SPC 1") 'sanityinc/toggle-delete-other-windows
@@ -671,5 +672,9 @@ ORIG is the advised function, which is called with its ARGS."
     (delete-other-windows)))
 
 (global-set-key (kbd "C-x 1") 'sanityinc/toggle-delete-other-windows)
+
+;; Specific to osx + terminal
+(require-package 'osx-clipboard)
+(osx-clipboard-mode)
 
 (load "~/.emacs.d/init-local.el" t)
