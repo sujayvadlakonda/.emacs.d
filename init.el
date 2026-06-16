@@ -210,7 +210,7 @@ An unintended benefit could be that we can select targets off the screen because
   (lambda () (interactive) (org-capture nil "t") (evil-append 1)))
 
 (evil-define-key* 'normal 'global (kbd "SPC a")
-  (lambda () (interactive) (org-agenda nil "g") (evil-motion-state)))
+  (lambda () (interactive) (org-agenda nil "g")))
 
 (setq org-agenda-custom-commands
       '(("g" "Get Things Done (GTD)"
@@ -248,7 +248,6 @@ An unintended benefit could be that we can select targets off the screen because
 ;; (maybe-require-package 'org-cliplink)
 
 (define-key global-map (kbd "C-c l") 'org-store-link)
-(define-key global-map (kbd "C-c a") 'org-agenda)
 
 (defvar sanityinc/org-global-prefix-map (make-sparse-keymap)
   "A keymap for handy global access to org helpers, particularly clocking.")
@@ -263,7 +262,6 @@ An unintended benefit could be that we can select targets off the screen because
 ;; Various preferences
 (setq org-log-done t
       org-edit-timestamp-down-means-later t
-      org-hide-emphasis-markers t
       org-catch-invisible-edits 'show
       org-export-coding-system 'utf-8
       org-fast-tag-selection-single-key 'expert
