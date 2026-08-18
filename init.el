@@ -267,7 +267,8 @@ An unintended benefit could be that we can select targets off the screen because
       org-fast-tag-selection-single-key 'expert
       org-html-validation-link nil
       org-export-kill-product-buffer-when-displayed t
-      org-tags-column 80)
+      org-tags-column 80
+      org-startup-indented t)
 
 
 ;; Lots of stuff from http://doc.norang.ca/org-mode.html
@@ -350,7 +351,7 @@ An unintended benefit could be that we can select targets off the screen because
 
 
 (setq org-stuck-projects
-      '("-INBOX/PROJECT" ("NEXT")))
+      '("-INBOX/PROJECT" ("NEXT" "WAITING" "DELEGATED" "HOLD")))
 
 (let ((active-project-match '(car org-stuck-projects)))
 
