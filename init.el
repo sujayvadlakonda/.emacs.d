@@ -353,6 +353,8 @@ An unintended benefit could be that we can select targets off the screen because
 (setq org-stuck-projects
       '("-INBOX/PROJECT" ("NEXT" "WAITING" "DELEGATED" "HOLD")))
 
+(setq org-agenda-todo-ignore-scheduled 'future)
+
 (let ((active-project-match '(car org-stuck-projects)))
 
   (setq org-agenda-compact-blocks t
@@ -371,7 +373,7 @@ An unintended benefit could be that we can select targets off the screen because
            ((org-agenda-overriding-header "Notes")
             (org-tags-match-list-sublevels t)))
           ("g" "GTD"
-           ((agenda "" nil)
+           (;; (agenda "" nil)
             (tags "INBOX"
                   ((org-agenda-overriding-header "Inbox")
                    (org-tags-match-list-sublevels nil)))
@@ -391,36 +393,37 @@ An unintended benefit could be that we can select targets off the screen because
                         (org-tags-match-list-sublevels t)
                         (org-agenda-sorting-strategy
                          '(todo-state-down effort-up category-keep))))
-            (tags-todo ,active-project-match
-                       ((org-agenda-overriding-header "Projects")
-                        (org-tags-match-list-sublevels t)
-                        (org-agenda-sorting-strategy
-                         '(category-keep))))
-            (tags-todo "-INBOX/-NEXT"
-                       ((org-agenda-overriding-header "Orphaned Tasks")
-                        (org-agenda-tags-todo-honor-ignore-options t)
-                        (org-agenda-todo-ignore-scheduled 'future)
-                        (org-agenda-skip-function
-                         '(lambda ()
-                            (or (org-agenda-skip-subtree-if 'todo '("PROJECT" "HOLD" "WAITING" "DELEGATED"))
-                                (org-agenda-skip-subtree-if 'nottododo '("TODO")))))
-                        (org-tags-match-list-sublevels t)
-                        (org-agenda-sorting-strategy
-                         '(category-keep))))
-            (tags-todo "/WAITING"
-                       ((org-agenda-overriding-header "Waiting")
-                        (org-agenda-tags-todo-honor-ignore-options t)
-                        (org-agenda-todo-ignore-scheduled 'future)
-                        (org-agenda-sorting-strategy
-                         '(category-keep))))
-            (tags-todo "/DELEGATED"
-                       ((org-agenda-overriding-header "Delegated")
-                        (org-agenda-tags-todo-honor-ignore-options t)
-                        (org-agenda-todo-ignore-scheduled 'future)
-                        (org-agenda-sorting-strategy
-                         '(category-keep))))
+            ;; (tags-todo ,active-project-match
+            ;;            ((org-agenda-overriding-header "Projects")
+            ;;             (org-tags-match-list-sublevels t)
+            ;;             (org-agenda-sorting-strategy
+            ;;              '(category-keep))))
+            ;; (tags-todo "-INBOX/-NEXT"
+            ;;            ((org-agenda-overriding-header "Orphaned Tasks")
+            ;;             (org-agenda-tags-todo-honor-ignore-options t)
+            ;;             (org-agenda-todo-ignore-scheduled 'future)
+            ;;             (org-agenda-skip-function
+            ;;              '(lambda ()
+            ;;                 (or (org-agenda-skip-subtree-if 'todo '("PROJECT" "HOLD" "WAITING" "DELEGATED"))
+            ;;                     (org-agenda-skip-subtree-if 'nottododo '("TODO")))))
+            ;;             (org-tags-match-list-sublevels t)
+            ;;             (org-agenda-sorting-strategy
+            ;;              '(category-keep))))
+            ;; (tags-todo "/WAITING"
+            ;;            ((org-agenda-overriding-header "Waiting")
+            ;;             (org-agenda-tags-todo-honor-ignore-options t)
+            ;;             (org-agenda-todo-ignore-scheduled 'future)
+            ;;             (org-agenda-sorting-strategy
+            ;;              '(category-keep))))
+            ;; (tags-todo "/DELEGATED"
+            ;;            ((org-agenda-overriding-header "Delegated")
+            ;;             (org-agenda-tags-todo-honor-ignore-options t)
+            ;;             (org-agenda-todo-ignore-scheduled 'future)
+            ;;             (org-agenda-sorting-strategy
+            ;;              '(category-keep))))
             (tags-todo "-INBOX"
                        ((org-agenda-overriding-header "On Hold")
+			(org-agenda-tags-todo-honor-ignore-options t)
                         (org-agenda-skip-function
                          '(lambda ()
                             (or (org-agenda-skip-subtree-if 'todo '("WAITING"))
