@@ -201,10 +201,10 @@ An unintended benefit could be that we can select targets off the screen because
 (setq org-directory "~/gtd")
 (setq org-agenda-files (list "inbox.org" "gtd.org"))
 
-(setq org-capture-templates
-       `(("i" "Inbox" entry  (file "inbox.org")
-        ,(concat "* TODO %?\n"
-                 "/Entered on/ %U"))))
+;; (setq org-capture-templates
+;;        `(("i" "Inbox" entry  (file "inbox.org")
+;;         ,(concat "* TODO %?\n"
+;;                  "/Entered on/ %U"))))
 
 (evil-define-key* 'normal 'global (kbd "SPC c")
   (lambda () (interactive) (org-capture nil "t") (evil-append 1)))
@@ -260,7 +260,7 @@ An unintended benefit could be that we can select targets off the screen because
 
 
 ;; Various preferences
-(setq org-log-done t
+(setq org-log-done nil
       org-edit-timestamp-down-means-later t
       org-catch-invisible-edits 'show
       org-export-coding-system 'utf-8
@@ -288,8 +288,8 @@ An unintended benefit could be that we can select targets off the screen because
 (setq org-capture-templates
       `(("t" "todo" entry (file "")  ; "" => `org-default-notes-file'
          "* NEXT %?" :clock-resume t)
-        ("n" "note" entry (file "")
-         "* %? :NOTE:\n%U\n%a\n" :clock-resume t)
+        ;; ("n" "note" entry (file "")
+        ;;  "* %? :NOTE:\n%U\n%a\n" :clock-resume t)
         ))
 
 
@@ -354,6 +354,7 @@ An unintended benefit could be that we can select targets off the screen because
       '("-INBOX/PROJECT" ("NEXT" "WAITING" "DELEGATED" "HOLD")))
 
 (setq org-agenda-todo-ignore-scheduled 'future)
+(setq org-agenda-todo-ignore-time-comparison-use-seconds 't)
 
 (let ((active-project-match '(car org-stuck-projects)))
 
@@ -388,8 +389,9 @@ An unintended benefit could be that we can select targets off the screen because
                         (org-agenda-todo-ignore-scheduled 'future)
                         (org-agenda-skip-function
                          '(lambda ()
-                            (or (org-agenda-skip-subtree-if 'todo '("HOLD" "WAITING"))
-                                (org-agenda-skip-entry-if 'nottodo '("NEXT")))))
+                            ;; (or (org-agenda-skip-subtree-if 'todo '("HOLD" "WAITING"))
+                            (org-agenda-skip-entry-if 'nottodo '("NEXT"))))
+			;;)
                         (org-tags-match-list-sublevels t)
                         (org-agenda-sorting-strategy
                          '(todo-state-down effort-up category-keep))))
